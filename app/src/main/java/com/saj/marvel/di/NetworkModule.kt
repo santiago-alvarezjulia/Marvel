@@ -1,7 +1,9 @@
 package com.saj.marvel.di
 
 import com.saj.marvel.BuildConfig
+import com.saj.marvel.network.HttpAuthInterceptor
 import com.saj.marvel.network.MarvelWebService
+import com.saj.marvel.utils.MD5Digest
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,16 +18,21 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 object NetworkModule {
 
     @Provides
-    fun provideOkHttpClient() = if (BuildConfig.DEBUG){
-        val loggingInterceptor = HttpLoggingInterceptor()
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
-        OkHttpClient.Builder()
-            .addInterceptor(loggingInterceptor)
-            .build()
-    }else{
-        OkHttpClient
-            .Builder()
-            .build()
+    fun provideMD5Digest() = MD5Digest()
+
+    @Provides
+    fun provideAuthInterceptor(mD5Digest: MD5Digest) = HttpAuthInterceptor(mD5Digest)
+
+    @Provides
+    fun provideOkHttpClient(httpAuthInterceptor: HttpAuthInterceptor): OkHttpClient {
+        val okHttpClientBuilder = OkHttpClient.Builder()
+            .addInterceptor(httpAuthInterceptor)
+        if (BuildConfig.DEBUG) {
+            val loggingInterceptor = HttpLoggingInterceptor()
+            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+            okHttpClientBuilder.addInterceptor(loggingInterceptor)
+        }
+        return okHttpClientBuilder.build()
     }
 
     @Provides

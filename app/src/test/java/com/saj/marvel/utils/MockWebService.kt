@@ -1,5 +1,6 @@
 package com.saj.marvel.utils
 
+import com.saj.marvel.network.HttpAuthInterceptor
 import com.saj.marvel.network.MarvelWebService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -12,9 +13,11 @@ object MockWebService {
     fun getMockedWebService(mockWebServer: MockWebServer) : MarvelWebService {
         val interceptor = HttpLoggingInterceptor()
             .setLevel(HttpLoggingInterceptor.Level.BODY)
+        val authInterceptor = HttpAuthInterceptor(MD5Digest())
 
         val client = OkHttpClient.Builder()
             .addInterceptor(interceptor)
+            .addInterceptor(authInterceptor)
             .build()
 
         return Retrofit.Builder()
