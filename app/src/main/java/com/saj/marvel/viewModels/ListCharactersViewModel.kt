@@ -1,8 +1,12 @@
 package com.saj.marvel.viewModels
 
-class ListCharactersViewModel {
+import com.saj.marvel.repositories.CharactersRepositoryInt
 
-    fun getMarvelCharacters() : List<Nothing> {
-        return emptyList()
+class ListCharactersViewModel(
+    private val charactersRepository: CharactersRepositoryInt
+) {
+
+    fun getMarvelCharacters() : List<String> {
+        return charactersRepository.fetchMarvelCharacters()
     }
 }
