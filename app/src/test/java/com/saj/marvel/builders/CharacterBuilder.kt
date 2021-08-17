@@ -1,6 +1,6 @@
 package com.saj.marvel.builders
 
-import com.saj.marvel.Character
+import com.saj.marvel.models.Character
 
 class CharacterBuilder {
 

@@ -1,6 +1,6 @@
 package com.saj.marvel.network.mappers
 
-import com.saj.marvel.Character
+import com.saj.marvel.models.Character
 import com.saj.marvel.network.dtos.CharacterDTO
 import javax.inject.Inject
 

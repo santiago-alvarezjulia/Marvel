@@ -3,6 +3,7 @@ package com.saj.marvel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat
 import com.saj.marvel.builders.CharacterBuilder
+import com.saj.marvel.models.Character
 import com.saj.marvel.repositories.CharactersRepositoryInt
 import com.saj.marvel.utils.MainCoroutineRule
 import com.saj.marvel.utils.runBlockingTest
@@ -26,18 +27,16 @@ class CharactersViewModelTest {
 
     @Test
     fun `getMarvelCharacters return empty list when no characters`() = coroutineRule.runBlockingTest {
-        val viewModel = CharactersViewModel(mockCharactersRepo, coroutineRule.testDispatcher)
         stubRepoFetchCharacters(emptyList())
-        viewModel.getMarvelCharacters()
+        val viewModel = CharactersViewModel(mockCharactersRepo, coroutineRule.testDispatcher)
         assertThat(viewModel.charactersLiveData.value).isEmpty()
     }
 
     @Test
     fun `getMarvelCharacters return list of available characters`() {
-        val viewModel = CharactersViewModel(mockCharactersRepo, coroutineRule.testDispatcher)
         val characters = listOf(CharacterBuilder().build())
         stubRepoFetchCharacters(characters)
-        viewModel.getMarvelCharacters()
+        val viewModel = CharactersViewModel(mockCharactersRepo, coroutineRule.testDispatcher)
         assertThat(viewModel.charactersLiveData.value).hasSize(characters.size)
     }
 

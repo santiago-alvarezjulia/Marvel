@@ -20,7 +20,7 @@ class HttpAuthInterceptor(
         val ts = System.currentTimeMillis().toString()
         val publicApiKey = BuildConfig.PUBLIC_API_KEY
         val secretApiKey = BuildConfig.SECRET_API_KEY
-        val hash = authDigest.generateDigest(ts+publicApiKey+secretApiKey)
+        val hash = authDigest.generateDigest(ts+secretApiKey+publicApiKey)
 
         val original = chain.request()
         val originalHttpUrl: HttpUrl = original.url

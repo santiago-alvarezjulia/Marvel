@@ -3,6 +3,7 @@ package com.saj.marvel
 import com.google.common.truth.Truth.assertThat
 import com.saj.marvel.builders.CharacterBuilder
 import com.saj.marvel.builders.CharacterDTOBuilder
+import com.saj.marvel.models.Character
 import com.saj.marvel.network.MarvelWebService
 import com.saj.marvel.network.dtos.CharacterDTO
 import com.saj.marvel.network.dtos.DataWrapperDTO
