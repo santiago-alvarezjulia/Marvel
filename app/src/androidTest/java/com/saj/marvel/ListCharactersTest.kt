@@ -5,6 +5,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import com.saj.marvel.ui.HomeActivity
 import com.saj.marvel.utils.RecyclerViewItemCounterAssertion
 import org.junit.Ignore
 import org.junit.Rule

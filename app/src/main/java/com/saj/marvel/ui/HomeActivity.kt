@@ -1,8 +1,9 @@
-package com.saj.marvel
+package com.saj.marvel.ui
 
 import android.os.Bundle
 import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
+import com.saj.marvel.R
 
 class HomeActivity : AppCompatActivity() {
 
