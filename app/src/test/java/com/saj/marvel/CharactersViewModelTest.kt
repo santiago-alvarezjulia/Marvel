@@ -2,6 +2,7 @@ package com.saj.marvel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat
+import com.saj.marvel.builders.CharacterBuilder
 import com.saj.marvel.repositories.CharactersRepositoryInt
 import com.saj.marvel.utils.MainCoroutineRule
 import com.saj.marvel.utils.runBlockingTest
@@ -34,13 +35,13 @@ class CharactersViewModelTest {
     @Test
     fun `getMarvelCharacters return list of available characters`() {
         val viewModel = CharactersViewModel(mockCharactersRepo, coroutineRule.testDispatcher)
-        val characters = listOf("Thanos", "Thor")
+        val characters = listOf(CharacterBuilder().build())
         stubRepoFetchCharacters(characters)
         viewModel.getMarvelCharacters()
         assertThat(viewModel.charactersLiveData.value).hasSize(characters.size)
     }
 
-    private fun stubRepoFetchCharacters(characters: List<String>) {
+    private fun stubRepoFetchCharacters(characters: List<Character>) {
         coEvery { mockCharactersRepo.fetchMarvelCharacters() } returns characters
     }
 }
