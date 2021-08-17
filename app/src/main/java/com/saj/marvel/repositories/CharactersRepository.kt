@@ -1,7 +1,7 @@
 package com.saj.marvel.repositories
 
-class CharactersRepository {
-    fun fetchMarvelCharacters(): List<Nothing> {
+class CharactersRepository : CharactersRepositoryInt {
+    override fun fetchMarvelCharacters(): List<String> {
         return emptyList()
     }
 }
