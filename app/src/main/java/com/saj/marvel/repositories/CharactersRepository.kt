@@ -1,7 +1,11 @@
 package com.saj.marvel.repositories
 
-class CharactersRepository : CharactersRepositoryInt {
+import com.saj.marvel.network.MarvelWebService
+
+class CharactersRepository(
+    private val marvelWebService: MarvelWebService
+) : CharactersRepositoryInt {
     override fun fetchMarvelCharacters(): List<String> {
-        return emptyList()
+        return marvelWebService.fetchMarvelCharacters()
     }
 }
