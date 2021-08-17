@@ -1,5 +1,5 @@
 package com.saj.marvel.repositories
 
 interface CharactersRepositoryInt {
-    fun fetchMarvelCharacters(): List<String>
+    suspend fun fetchMarvelCharacters(): List<String>
 }
