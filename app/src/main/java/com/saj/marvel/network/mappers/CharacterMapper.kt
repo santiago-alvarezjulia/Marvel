@@ -6,6 +6,7 @@ import javax.inject.Inject
 
 class CharacterMapper @Inject constructor(): Mapper<CharacterDTO, Character> {
     override fun map(input: CharacterDTO): Character {
-        return Character(input.id, input.name)
+        val thumbnail = input.thumbnail.path.plus('.').plus(input.thumbnail.extension)
+        return Character(input.id, input.name, input.description, thumbnail)
     }
 }

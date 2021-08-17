@@ -2,6 +2,7 @@ package com.saj.marvel
 
 import com.google.common.truth.Truth.assertThat
 import com.saj.marvel.builders.CharacterDTOBuilder
+import com.saj.marvel.builders.ThumbnailDTOBuilder
 import com.saj.marvel.utils.MockWebService
 import com.saj.marvel.utils.WebServiceUtil.getMockResponse
 import com.saj.marvel.utils.WebServiceUtil.readJsonResponseAsString
@@ -30,6 +31,8 @@ class MarvelWebServiceTest {
             CharacterDTOBuilder()
                 .setId(1)
                 .setName("Thanos")
+                .setDescription("The Mad Titan Thanos, a melancholy, brooding individual")
+                .setThumbnail(ThumbnailDTOBuilder().build())
                 .build()
         )
 
