@@ -57,7 +57,7 @@ class SignInFragment : Fragment() {
     }
 
     private fun navigateToCharactersList() {
-        findNavController().navigate(R.id.charactersListFragment)
+        findNavController().navigate(R.id.actionToCharactersListFragment)
     }
 
     override fun onDestroyView() {

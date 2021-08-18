@@ -16,7 +16,9 @@
         tools:layout="@layout/fragment_sign_in">
         <action
             android:id="@+id/actionToCharactersListFragment"
-            app:destination="@id/charactersListFragment"/>
+            app:destination="@id/charactersListFragment"
+            app:popUpTo="@id/signInFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
 
 </navigation>
