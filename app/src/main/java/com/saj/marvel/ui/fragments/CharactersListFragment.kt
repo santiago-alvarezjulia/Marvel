@@ -6,12 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.saj.marvel.databinding.FragmentCharactersListBinding
+import com.saj.marvel.ui.adapters.CharactersAdapter
 import com.saj.marvel.viewModels.CharactersViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class CharactersListFragment : Fragment() {
+
+    @Inject
+    lateinit var charactersAdapter: CharactersAdapter
 
     private val charactersViewModel: CharactersViewModel by viewModels()
 
@@ -27,11 +33,16 @@ class CharactersListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        println("ESTE SEGURO PERRO")
+        setUpCharactersAdapter()
         charactersViewModel.charactersLiveData.observe(viewLifecycleOwner, {
-            println("NOSE QUE ONDA")
-            println(it)
+            charactersAdapter.setData(it)
         })
+    }
+
+    private fun setUpCharactersAdapter() {
+        val layoutManager = LinearLayoutManager(activity)
+        binding.charactersList.layoutManager = layoutManager
+        binding.charactersList.adapter = charactersAdapter
     }
 
     override fun onDestroyView() {
