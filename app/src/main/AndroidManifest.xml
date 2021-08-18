@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Marvel"
-        android:name=".MarvelApplication">
+        android:name=".MarvelApplication"
+        android:usesCleartextTraffic="true">
 
         <activity android:name=".ui.HomeActivity"
             android:exported="true">

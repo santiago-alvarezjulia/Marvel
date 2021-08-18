@@ -8,10 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.saj.marvel.R
 import com.saj.marvel.databinding.CharacterItemBinding
 import com.saj.marvel.models.Character
+import com.saj.marvel.ui.imageManager.ImageManager
 import javax.inject.Inject
 
-class CharactersAdapter @Inject constructor()
-    : RecyclerView.Adapter<CharactersAdapter.ViewHolder>() {
+class CharactersAdapter @Inject constructor(
+    private val imageManager: ImageManager
+) : RecyclerView.Adapter<CharactersAdapter.ViewHolder>() {
 
     private val characters = mutableListOf<Character>()
 
@@ -38,6 +40,8 @@ class CharactersAdapter @Inject constructor()
         val character = characters[position]
         holder.binding.characterName.text = character.name
         holder.binding.characterDescription.text = character.description
+        imageManager.loadImage(holder.itemView.context, holder.binding.characterThumbnail,
+            character.thumbnail)
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
