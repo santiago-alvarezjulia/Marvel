@@ -1,7 +1,7 @@
 package com.saj.marvel.repositoriesTests
 
 import com.google.common.truth.Truth.assertThat
-import com.saj.marvel.data.AuthStateStorage
+import com.saj.marvel.data.AuthStateStorageInt
 import com.saj.marvel.repositories.AuthStateRepository
 import io.mockk.coEvery
 import io.mockk.every
@@ -15,7 +15,7 @@ import org.junit.Test
 @ExperimentalCoroutinesApi
 class AuthStateRepositoryTest {
 
-    private val mockAuthStateStorage = mockk<AuthStateStorage>()
+    private val mockAuthStateStorage = mockk<AuthStateStorageInt>()
 
     @Test
     fun `fetchAuthState return true when user logged in`() = runBlockingTest {

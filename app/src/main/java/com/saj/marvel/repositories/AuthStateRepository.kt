@@ -6,8 +6,8 @@ import javax.inject.Inject
 
 class AuthStateRepository @Inject constructor(
     private val authStateStorage: AuthStateStorageInt
-){
-    fun fetchAuthState(): Flow<Boolean> {
+) : AuthStateRepositoryInt {
+    override fun fetchAuthState(): Flow<Boolean> {
         return authStateStorage.isUserLoggedIn()
     }
 }
