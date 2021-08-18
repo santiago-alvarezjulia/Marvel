@@ -1,4 +1,4 @@
-package com.saj.marvel
+package com.saj.marvel.viewModelsTests
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.SavedStateHandle
@@ -31,10 +31,12 @@ class CharactersViewModelTest {
     val coroutineRule = MainCoroutineRule()
 
     @Before
-    fun mockEspressoCountingIdlingResource() {
+    fun setUp() {
         mockkObject(EspressoCountingIdlingResource)
         every { EspressoCountingIdlingResource.processStarts() } returns Unit
         every { EspressoCountingIdlingResource.processEnds() } returns Unit
+
+        every { mockSavedStateHandle.set<List<Character>>(any(), any()) } returns Unit
     }
 
     @Test
