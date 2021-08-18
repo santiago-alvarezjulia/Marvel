@@ -1,9 +1,6 @@
 package com.saj.marvel.viewModels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.saj.marvel.di.IoDispatcher
 import com.saj.marvel.idlingResources.EspressoCountingIdlingResource
 import com.saj.marvel.models.Character
@@ -15,21 +12,38 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CharactersViewModel @Inject constructor(
+    private val savedStateHandle: SavedStateHandle,
     private val charactersRepository: CharactersRepositoryInt,
     @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
+
+    companion object {
+        private const val SAVED_STATE_CHARACTERS_KEY = "SAVED_STATE_CHARACTERS_KEY"
+    }
+
     private val _charactersLiveData = MutableLiveData<List<Character>>()
     val charactersLiveData : LiveData<List<Character>>
         get() = _charactersLiveData
 
     init {
-        getMarvelCharacters()
+        val savedStateCharacters = savedStateHandle.get<List<Character>>(SAVED_STATE_CHARACTERS_KEY)
+        savedStateCharacters?.let {
+            if (it.isEmpty()) {
+                getMarvelCharacters()
+            } else {
+                _charactersLiveData.postValue(it)
+            }
+        } ?: run {
+            getMarvelCharacters()
+        }
     }
 
     private fun getMarvelCharacters() {
         EspressoCountingIdlingResource.processStarts()
         viewModelScope.launch(dispatcher) {
-            _charactersLiveData.postValue(charactersRepository.fetchMarvelCharacters())
+            val characters = charactersRepository.fetchMarvelCharacters()
+            _charactersLiveData.postValue(characters)
+            savedStateHandle.set(SAVED_STATE_CHARACTERS_KEY, characters)
             EspressoCountingIdlingResource.processEnds()
         }
     }

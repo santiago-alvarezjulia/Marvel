@@ -1,13 +1,13 @@
 package com.saj.marvel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.SavedStateHandle
 import com.google.common.truth.Truth.assertThat
 import com.saj.marvel.builders.CharacterBuilder
 import com.saj.marvel.idlingResources.EspressoCountingIdlingResource
 import com.saj.marvel.models.Character
 import com.saj.marvel.repositories.CharactersRepositoryInt
 import com.saj.marvel.utils.MainCoroutineRule
-import com.saj.marvel.utils.runBlockingTest
 import com.saj.marvel.viewModels.CharactersViewModel
 import io.mockk.coEvery
 import io.mockk.every
@@ -22,6 +22,7 @@ import org.junit.Test
 class CharactersViewModelTest {
 
     private val mockCharactersRepo = mockk<CharactersRepositoryInt>()
+    private val mockSavedStateHandle = mockk<SavedStateHandle>()
 
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
@@ -37,9 +38,11 @@ class CharactersViewModelTest {
     }
 
     @Test
-    fun `getMarvelCharacters return empty list when no characters`() = coroutineRule.runBlockingTest {
+    fun `getMarvelCharacters return empty list when no characters`() {
         stubRepoFetchCharacters(emptyList())
-        val viewModel = CharactersViewModel(mockCharactersRepo, coroutineRule.testDispatcher)
+        stubSavedStateHandleGet(emptyList())
+        val viewModel = CharactersViewModel(mockSavedStateHandle, mockCharactersRepo,
+            coroutineRule.testDispatcher)
         assertThat(viewModel.charactersLiveData.value).isEmpty()
     }
 
@@ -47,11 +50,27 @@ class CharactersViewModelTest {
     fun `getMarvelCharacters return list of available characters`() {
         val characters = listOf(CharacterBuilder().build())
         stubRepoFetchCharacters(characters)
-        val viewModel = CharactersViewModel(mockCharactersRepo, coroutineRule.testDispatcher)
+        stubSavedStateHandleGet(emptyList())
+        val viewModel = CharactersViewModel(mockSavedStateHandle, mockCharactersRepo,
+            coroutineRule.testDispatcher)
+        assertThat(viewModel.charactersLiveData.value).hasSize(characters.size)
+    }
+
+    @Test
+    fun `saved state handle characters return instead of repo getCharacters`() {
+        val characters = listOf(CharacterBuilder().build())
+        stubRepoFetchCharacters(emptyList())
+        stubSavedStateHandleGet(characters)
+        val viewModel = CharactersViewModel(mockSavedStateHandle, mockCharactersRepo,
+            coroutineRule.testDispatcher)
         assertThat(viewModel.charactersLiveData.value).hasSize(characters.size)
     }
 
     private fun stubRepoFetchCharacters(characters: List<Character>) {
         coEvery { mockCharactersRepo.fetchMarvelCharacters() } returns characters
+    }
+
+    private fun stubSavedStateHandleGet(characters: List<Character>) {
+        every { mockSavedStateHandle.get<List<Character>>(any()) } returns characters
     }
 }
