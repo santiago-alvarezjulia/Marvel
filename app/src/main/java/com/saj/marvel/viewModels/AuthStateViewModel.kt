@@ -1,44 +1,28 @@
 package com.saj.marvel.viewModels
 
-import androidx.lifecycle.*
-import com.saj.marvel.di.IoDispatcher
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.saj.marvel.repositories.AuthStateRepositoryInt
+import com.saj.marvel.viewModels.singleEvent.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class AuthStateViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle,
-    private val authStateRepository: AuthStateRepositoryInt,
-    @IoDispatcher private val dispatcher: CoroutineDispatcher
+    private val authStateRepository: AuthStateRepositoryInt
 ) : ViewModel() {
 
-    companion object {
-        private const val SAVED_STATE_IS_LOGGED_KEY = "SAVED_STATE_IS_LOGGED_KEY"
-    }
-
-    private val _isLoggedInLiveData = MutableLiveData<Boolean>()
-    val isLoggedInLiveData : LiveData<Boolean>
+    private val _isLoggedInLiveData = MutableLiveData<Event<Boolean>>()
+    val isLoggedInLiveData : LiveData<Event<Boolean>>
         get() = _isLoggedInLiveData
 
     init {
-        val savedStateLoggedIn = savedStateHandle.get<Boolean>(SAVED_STATE_IS_LOGGED_KEY)
-        savedStateLoggedIn?.let {
-            _isLoggedInLiveData.postValue(it)
-        } ?: run {
-            isUserLogged()
-        }
+        isUserLogged()
     }
 
     private fun isUserLogged() {
-        viewModelScope.launch(dispatcher) {
-            authStateRepository.fetchAuthState().collect {
-                _isLoggedInLiveData.postValue(it)
-                savedStateHandle.set(SAVED_STATE_IS_LOGGED_KEY, it)
-            }
-        }
+        val isLoggedIn = authStateRepository.fetchAuthState()
+        _isLoggedInLiveData.postValue(Event(isLoggedIn))
     }
 }
