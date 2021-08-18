@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.saj.marvel.databinding.FragmentCharactersListBinding
 import com.saj.marvel.ui.adapters.CharactersAdapter
+import com.saj.marvel.ui.adapters.CharactersItemDecoration
 import com.saj.marvel.viewModels.CharactersViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -18,6 +19,9 @@ class CharactersListFragment : Fragment() {
 
     @Inject
     lateinit var charactersAdapter: CharactersAdapter
+
+    @Inject
+    lateinit var itemDecoration: CharactersItemDecoration
 
     private val charactersViewModel: CharactersViewModel by viewModels()
 
@@ -43,6 +47,7 @@ class CharactersListFragment : Fragment() {
         val layoutManager = LinearLayoutManager(activity)
         binding.charactersList.layoutManager = layoutManager
         binding.charactersList.adapter = charactersAdapter
+        binding.charactersList.addItemDecoration(itemDecoration)
     }
 
     override fun onDestroyView() {
