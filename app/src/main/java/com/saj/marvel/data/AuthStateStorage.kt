@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class AuthStateStorage @Inject constructor(
     @ApplicationContext private val appContext: Context
-) {
+) : AuthStateStorageInt {
     companion object {
         const val DATA_STORE_NAME = "auth_state"
         private const val IS_LOGGED_IN_KEY = "is_logged_in"
@@ -18,12 +18,12 @@ class AuthStateStorage @Inject constructor(
 
     private val isLoggedInKey = booleanPreferencesKey(IS_LOGGED_IN_KEY)
 
-    fun isUserLoggedIn() : Flow<Boolean> =  appContext.authStateDataStore.data
+    override fun isUserLoggedIn() : Flow<Boolean> =  appContext.authStateDataStore.data
             .map { preferences ->
                 preferences[isLoggedInKey] ?: false
             }
 
-    suspend fun userLoggedIn() {
+    override suspend fun userLoggedIn() {
         appContext.authStateDataStore.edit { settings ->
             settings[isLoggedInKey] = true
         }
