@@ -13,6 +13,10 @@
     <fragment
         android:id="@+id/signInFragment"
         android:name="com.saj.marvel.ui.fragments.SignInFragment"
-        tools:layout="@layout/fragment_sign_in"/>
+        tools:layout="@layout/fragment_sign_in">
+        <action
+            android:id="@+id/actionToCharactersListFragment"
+            app:destination="@id/charactersListFragment"/>
+    </fragment>
 
 </navigation>
