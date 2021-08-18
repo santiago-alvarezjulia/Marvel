@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.saj.marvel.di.IoDispatcher
+import com.saj.marvel.idlingResources.EspressoCountingIdlingResource
 import com.saj.marvel.models.Character
 import com.saj.marvel.repositories.CharactersRepositoryInt
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,9 +26,11 @@ class CharactersViewModel @Inject constructor(
         getMarvelCharacters()
     }
 
-    fun getMarvelCharacters() {
+    private fun getMarvelCharacters() {
+        EspressoCountingIdlingResource.processStarts()
         viewModelScope.launch(dispatcher) {
             _charactersLiveData.postValue(charactersRepository.fetchMarvelCharacters())
+            EspressoCountingIdlingResource.processEnds()
         }
     }
 }

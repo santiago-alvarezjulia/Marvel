@@ -3,14 +3,18 @@ package com.saj.marvel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat
 import com.saj.marvel.builders.CharacterBuilder
+import com.saj.marvel.idlingResources.EspressoCountingIdlingResource
 import com.saj.marvel.models.Character
 import com.saj.marvel.repositories.CharactersRepositoryInt
 import com.saj.marvel.utils.MainCoroutineRule
 import com.saj.marvel.utils.runBlockingTest
 import com.saj.marvel.viewModels.CharactersViewModel
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
+import io.mockk.mockkObject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -24,6 +28,13 @@ class CharactersViewModelTest {
 
     @get:Rule
     val coroutineRule = MainCoroutineRule()
+
+    @Before
+    fun mockEspressoCountingIdlingResource() {
+        mockkObject(EspressoCountingIdlingResource)
+        every { EspressoCountingIdlingResource.processStarts() } returns Unit
+        every { EspressoCountingIdlingResource.processEnds() } returns Unit
+    }
 
     @Test
     fun `getMarvelCharacters return empty list when no characters`() = coroutineRule.runBlockingTest {

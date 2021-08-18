@@ -1,0 +1,33 @@
+{
+	"data": {
+		"results": [
+			{
+				"id": 1,
+				"name": "Thanos",
+				"description": "The Mad Titan Thanos, a melancholy, brooding individual",
+				"thumbnail": {
+					"path": "http://i.annihil.us/u/prod/marvel/i/mg/6/40/5274137e3e2cd",
+					"extension": "jpg"
+				}
+			},
+			{
+				"id": 2,
+				"name": "Thor",
+				"description": "Thunder God",
+				"thumbnail": {
+					"path": "http://i.annihil.us/u/prod/marvel/i/mg/6/40/5274137e3e2cd",
+					"extension": "jpg"
+				}
+			},
+			{
+				"id": 3,
+				"name": "Tony Stark",
+				"description": "Scientist",
+				"thumbnail": {
+					"path": "http://i.annihil.us/u/prod/marvel/i/mg/6/40/5274137e3e2cd",
+					"extension": "jpg"
+				}
+			}
+		]
+	}
+}
