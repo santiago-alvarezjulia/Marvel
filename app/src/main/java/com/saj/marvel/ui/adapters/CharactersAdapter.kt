@@ -27,6 +27,8 @@ class CharactersAdapter @Inject constructor(
 
     override fun getItemCount() = characters.size
 
+    override fun getItemId(position: Int) = characters[position].id.toLong()
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int

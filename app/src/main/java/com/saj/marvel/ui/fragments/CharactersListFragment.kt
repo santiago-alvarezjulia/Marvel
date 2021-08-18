@@ -46,8 +46,10 @@ class CharactersListFragment : Fragment() {
     private fun setUpCharactersAdapter() {
         val layoutManager = LinearLayoutManager(activity)
         binding.charactersList.layoutManager = layoutManager
+        charactersAdapter.setHasStableIds(true)
         binding.charactersList.adapter = charactersAdapter
         binding.charactersList.addItemDecoration(itemDecoration)
+        binding.charactersList.setHasFixedSize(true)
     }
 
     override fun onDestroyView() {
