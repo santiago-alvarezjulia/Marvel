@@ -1,4 +1,4 @@
-package com.saj.marvel
+package com.saj.marvel.repositoriesTests
 
 import com.google.common.truth.Truth.assertThat
 import com.saj.marvel.builders.CharacterBuilder
