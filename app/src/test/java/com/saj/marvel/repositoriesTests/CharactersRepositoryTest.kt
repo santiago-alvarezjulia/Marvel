@@ -17,6 +17,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
+import java.io.IOException
 
 @ExperimentalCoroutinesApi
 class CharactersRepositoryTest {
@@ -44,9 +45,27 @@ class CharactersRepositoryTest {
     }
 
     @Test
-    fun `when network response is error, fetch characters return the error`() = runBlockingTest {
+    fun `when network response is ApiError, fetch characters return the error`() = runBlockingTest {
         val error = NetworkResponse.ApiError(GenericApiError(500, "error"))
-        stubWebServiceError(error)
+        stubWebServiceApiError(error)
+        val repo = CharactersRepository(mockMarvelWebService, listMapper)
+        val response = repo.fetchMarvelCharacters()
+        assertThat(response).isEqualTo(error)
+    }
+
+    @Test
+    fun `when network response is NetworkError, fetch characters return the error`() = runBlockingTest {
+        val error = NetworkResponse.NetworkError(IOException())
+        stubWebServiceNetworkError(error)
+        val repo = CharactersRepository(mockMarvelWebService, listMapper)
+        val response = repo.fetchMarvelCharacters()
+        assertThat(response).isEqualTo(error)
+    }
+
+    @Test
+    fun `when network response is OtherError, fetch characters return the error`() = runBlockingTest {
+        val error = NetworkResponse.OtherError(null)
+        stubWebServiceOtherError(error)
         val repo = CharactersRepository(mockMarvelWebService, listMapper)
         val response = repo.fetchMarvelCharacters()
         assertThat(response).isEqualTo(error)
@@ -61,7 +80,15 @@ class CharactersRepositoryTest {
         coEvery { mockMarvelWebService.fetchMarvelCharacters() } returns NetworkResponse.Success(data)
     }
 
-    private fun stubWebServiceError(error: NetworkResponse.ApiError<GenericApiError>) {
+    private fun stubWebServiceApiError(error: NetworkResponse.ApiError<GenericApiError>) {
+        coEvery { mockMarvelWebService.fetchMarvelCharacters() } returns error
+    }
+
+    private fun stubWebServiceNetworkError(error: NetworkResponse.NetworkError) {
+        coEvery { mockMarvelWebService.fetchMarvelCharacters() } returns error
+    }
+
+    private fun stubWebServiceOtherError(error: NetworkResponse.OtherError) {
         coEvery { mockMarvelWebService.fetchMarvelCharacters() } returns error
     }
 }
