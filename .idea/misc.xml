@@ -8,6 +8,7 @@
         <entry key="app/src/main/res/drawable/events_menu_icon.xml" value="0.209375" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/character_item.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/event_item.xml" value="0.19322916666666667" />
         <entry key="app/src/main/res/layout/fragment_characters_list.xml" value="0.19322916666666667" />
         <entry key="app/src/main/res/layout/fragment_events_list.xml" value="0.19322916666666667" />
         <entry key="app/src/main/res/layout/fragment_sign_in.xml" value="0.1712962962962963" />
