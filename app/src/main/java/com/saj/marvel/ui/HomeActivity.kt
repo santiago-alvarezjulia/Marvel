@@ -41,10 +41,12 @@ class HomeActivity : AppCompatActivity() {
         binding.bottomNav.itemIconTintList = null
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if(destination.id == R.id.signInFragment) {
+            if (destination.id == R.id.signInFragment) {
                 binding.bottomNav.visibility = View.GONE
+                binding.topBar.visibility = View.GONE
             } else {
                 binding.bottomNav.visibility = View.VISIBLE
+                binding.topBar.visibility = View.VISIBLE
             }
         }
     }

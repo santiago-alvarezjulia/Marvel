@@ -2,4 +2,5 @@
     <string name="app_name">Marvel</string>
     <string name="characters_list_item_title">Characters</string>
     <string name="events_list_item_title">Events</string>
+    <string name="home_top_title">Marvel Challenge</string>
 </resources>
