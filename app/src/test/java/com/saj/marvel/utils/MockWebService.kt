@@ -2,6 +2,7 @@ package com.saj.marvel.utils
 
 import com.saj.marvel.network.HttpAuthInterceptor
 import com.saj.marvel.network.MarvelWebService
+import com.saj.marvel.network.callAdapter.NetworkResponseAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.mockwebserver.MockWebServer
@@ -23,6 +24,7 @@ object MockWebService {
         return Retrofit.Builder()
             .baseUrl(mockWebServer.url("/"))
             .client(client)
+            .addCallAdapterFactory(NetworkResponseAdapterFactory())
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
             .create(MarvelWebService::class.java)

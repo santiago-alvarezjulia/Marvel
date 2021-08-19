@@ -2,6 +2,7 @@ package com.saj.marvel.di
 
 import com.saj.marvel.network.HttpAuthInterceptor
 import com.saj.marvel.network.MarvelWebService
+import com.saj.marvel.network.callAdapter.NetworkResponseAdapterFactory
 import com.saj.marvel.utils.MD5Digest
 import dagger.Module
 import dagger.Provides
@@ -39,6 +40,7 @@ class MockNetworkModule {
     @Provides
     fun provideRickAndMortyWebService(okHttpClient: OkHttpClient): MarvelWebService = Retrofit.Builder()
         .addConverterFactory(MoshiConverterFactory.create())
+        .addCallAdapterFactory(NetworkResponseAdapterFactory())
         .baseUrl("http://localhost:8080/")
         .client(okHttpClient)
         .build()

@@ -3,6 +3,8 @@ package com.saj.marvel
 import com.google.common.truth.Truth.assertThat
 import com.saj.marvel.builders.CharacterDTOBuilder
 import com.saj.marvel.builders.ThumbnailDTOBuilder
+import com.saj.marvel.network.GenericApiError
+import com.saj.marvel.network.NetworkResponse
 import com.saj.marvel.utils.MockWebService
 import com.saj.marvel.utils.WebServiceUtil.getMockResponse
 import com.saj.marvel.utils.WebServiceUtil.readJsonResponseAsString
@@ -26,7 +28,7 @@ class MarvelWebServiceTest {
         mockWebServer.enqueue(getMockResponse(readJsonResponseAsString("1-character-200.json"),
             200))
 
-        val actual = webService.fetchMarvelCharacters().data.results
+        val actual = (webService.fetchMarvelCharacters() as NetworkResponse.Success).body.data.results
         val expected = listOf(
             CharacterDTOBuilder()
                 .setId(1)
@@ -35,6 +37,18 @@ class MarvelWebServiceTest {
                 .setThumbnail(ThumbnailDTOBuilder().build())
                 .build()
         )
+
+        assertThat(expected).isEqualTo(actual)
+    }
+
+    @Test
+    fun `when 500 response, should get code and status`() = runBlocking {
+        val code = 500
+        mockWebServer.enqueue(getMockResponse(readJsonResponseAsString("500.json"),
+            code))
+
+        val actual = (webService.fetchMarvelCharacters() as NetworkResponse.ApiError)
+        val expected = NetworkResponse.ApiError(GenericApiError(code, "Internal Server Error"))
 
         assertThat(expected).isEqualTo(actual)
     }

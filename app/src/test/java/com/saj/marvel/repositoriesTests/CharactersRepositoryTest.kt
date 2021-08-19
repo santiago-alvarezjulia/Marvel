@@ -5,6 +5,7 @@ import com.saj.marvel.builders.CharacterBuilder
 import com.saj.marvel.builders.CharacterDTOBuilder
 import com.saj.marvel.models.Character
 import com.saj.marvel.network.MarvelWebService
+import com.saj.marvel.network.NetworkResponse
 import com.saj.marvel.network.dtos.CharacterDTO
 import com.saj.marvel.network.dtos.DataWrapperDTO
 import com.saj.marvel.network.mappers.ListMapper
@@ -45,6 +46,6 @@ class CharactersRepositoryTest {
 
     private fun stubWebServiceFetchCharacters(characters: List<CharacterDTO>) {
         val data = DataWrapperDTO(DataWrapperDTO.DataContainerDTO(characters))
-        coEvery { mockMarvelWebService.fetchMarvelCharacters() } returns data
+        coEvery { mockMarvelWebService.fetchMarvelCharacters() } returns NetworkResponse.Success(data)
     }
 }
