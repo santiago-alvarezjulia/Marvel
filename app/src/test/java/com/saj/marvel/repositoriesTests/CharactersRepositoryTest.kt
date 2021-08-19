@@ -4,6 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import com.saj.marvel.builders.CharacterBuilder
 import com.saj.marvel.builders.CharacterDTOBuilder
 import com.saj.marvel.models.Character
+import com.saj.marvel.network.GenericApiError
 import com.saj.marvel.network.MarvelWebService
 import com.saj.marvel.network.NetworkResponse
 import com.saj.marvel.network.dtos.CharacterDTO
@@ -28,7 +29,8 @@ class CharactersRepositoryTest {
         val repo = CharactersRepository(mockMarvelWebService, listMapper)
         stubWebServiceFetchCharacters(emptyList())
         stubCharactersListMapper(emptyList())
-        assertThat(repo.fetchMarvelCharacters()).isEmpty()
+        val response = repo.fetchMarvelCharacters()
+        assertThat((response as NetworkResponse.Success).body).isEmpty()
     }
 
     @Test
@@ -37,7 +39,17 @@ class CharactersRepositoryTest {
         val character = CharacterDTOBuilder().build()
         stubCharactersListMapper(listOf(CharacterBuilder().build()))
         stubWebServiceFetchCharacters(listOf(character))
-        assertThat(repo.fetchMarvelCharacters()[0].id).isEqualTo(character.id)
+        val response = repo.fetchMarvelCharacters()
+        assertThat((response as NetworkResponse.Success).body[0].id).isEqualTo(character.id)
+    }
+
+    @Test
+    fun `when network response is error, fetch characters return the error`() = runBlockingTest {
+        val error = NetworkResponse.ApiError(GenericApiError(500, "error"))
+        stubWebServiceError(error)
+        val repo = CharactersRepository(mockMarvelWebService, listMapper)
+        val response = repo.fetchMarvelCharacters()
+        assertThat(response).isEqualTo(error)
     }
 
     private fun stubCharactersListMapper(characters: List<Character>) {
@@ -47,5 +59,9 @@ class CharactersRepositoryTest {
     private fun stubWebServiceFetchCharacters(characters: List<CharacterDTO>) {
         val data = DataWrapperDTO(DataWrapperDTO.DataContainerDTO(characters))
         coEvery { mockMarvelWebService.fetchMarvelCharacters() } returns NetworkResponse.Success(data)
+    }
+
+    private fun stubWebServiceError(error: NetworkResponse.ApiError<GenericApiError>) {
+        coEvery { mockMarvelWebService.fetchMarvelCharacters() } returns error
     }
 }

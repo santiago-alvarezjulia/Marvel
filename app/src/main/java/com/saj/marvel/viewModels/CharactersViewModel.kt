@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import com.saj.marvel.di.IoDispatcher
 import com.saj.marvel.idlingResources.EspressoCountingIdlingResource
 import com.saj.marvel.models.Character
+import com.saj.marvel.network.NetworkResponse
 import com.saj.marvel.repositories.CharactersRepositoryInt
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -41,7 +42,8 @@ class CharactersViewModel @Inject constructor(
     private fun getMarvelCharacters() {
         EspressoCountingIdlingResource.processStarts()
         viewModelScope.launch(dispatcher) {
-            val characters = charactersRepository.fetchMarvelCharacters()
+            val response = charactersRepository.fetchMarvelCharacters()
+            val characters = (response as NetworkResponse.Success).body
             _charactersLiveData.postValue(characters)
             savedStateHandle.set(SAVED_STATE_CHARACTERS_KEY, characters)
             EspressoCountingIdlingResource.processEnds()

@@ -6,6 +6,7 @@ import com.google.common.truth.Truth.assertThat
 import com.saj.marvel.builders.CharacterBuilder
 import com.saj.marvel.idlingResources.EspressoCountingIdlingResource
 import com.saj.marvel.models.Character
+import com.saj.marvel.network.NetworkResponse
 import com.saj.marvel.repositories.CharactersRepositoryInt
 import com.saj.marvel.utils.MainCoroutineRule
 import com.saj.marvel.viewModels.CharactersViewModel
@@ -69,7 +70,7 @@ class CharactersViewModelTest {
     }
 
     private fun stubRepoFetchCharacters(characters: List<Character>) {
-        coEvery { mockCharactersRepo.fetchMarvelCharacters() } returns characters
+        coEvery { mockCharactersRepo.fetchMarvelCharacters() } returns NetworkResponse.Success(characters)
     }
 
     private fun stubSavedStateHandleGet(characters: List<Character>) {
