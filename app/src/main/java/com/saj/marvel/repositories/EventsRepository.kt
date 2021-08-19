@@ -11,13 +11,13 @@ import javax.inject.Inject
 class EventsRepository @Inject constructor(
     private val webService: MarvelWebService,
     private val eventsMapper: ListMapper<EventDTO, Event>
-) {
+) : EventsRepositoryInt {
     companion object {
         private const val LIMIT = 25
         private const val ORDER_BY = "startDate"
     }
 
-    suspend fun fetchMarvelEvents(): NetworkResponse<List<Event>, GenericApiError> {
+    override suspend fun fetchMarvelEvents(): NetworkResponse<List<Event>, GenericApiError> {
         return when(val response = webService.fetchMarvelEvents(LIMIT, ORDER_BY)) {
             is NetworkResponse.Success -> {
                 NetworkResponse.Success(
