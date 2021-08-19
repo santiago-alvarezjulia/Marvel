@@ -69,6 +69,20 @@ class CharactersViewModelTest {
         assertThat(viewModel.charactersLiveData.value).hasSize(characters.size)
     }
 
+    @Test
+    fun `when network response is error, post live data event`() {
+        stubFetchCharactersReturnsError()
+        stubSavedStateHandleGet(emptyList())
+        val viewModel = CharactersViewModel(mockSavedStateHandle, mockCharactersRepo,
+            coroutineRule.testDispatcher)
+
+        assertThat(viewModel.loadCharactersErrorLiveData.value?.peekContent()).isNotNull()
+    }
+
+    private fun stubFetchCharactersReturnsError() {
+        coEvery { mockCharactersRepo.fetchMarvelCharacters() } returns NetworkResponse.OtherError(null)
+    }
+
     private fun stubRepoFetchCharacters(characters: List<Character>) {
         coEvery { mockCharactersRepo.fetchMarvelCharacters() } returns NetworkResponse.Success(characters)
     }
