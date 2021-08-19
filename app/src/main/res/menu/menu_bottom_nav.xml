@@ -2,8 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/charactersListFragment"
+        android:icon="@drawable/characters_menu_icon"
         android:title="@string/characters_list_item_title" />
     <item
         android:id="@+id/eventsListFragment"
+        android:icon="@drawable/events_menu_icon"
         android:title="@string/events_list_item_title" />
 </menu>
