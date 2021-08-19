@@ -55,7 +55,7 @@ class EventsViewModel @Inject constructor(
                 }
                 else -> {
                     _loadEventsErrorLiveData.postValue(
-                        com.saj.marvel.viewModels.singleEvent.Event(R.string.error_loading_characters)
+                        com.saj.marvel.viewModels.singleEvent.Event(R.string.error_loading_events)
                     )
                 }
             }

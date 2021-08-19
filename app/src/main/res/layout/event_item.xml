@@ -23,7 +23,7 @@
             tools:ignore="ContentDescription" />
 
         <TextView
-            android:id="@+id/event_name"
+            android:id="@+id/event_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
@@ -49,9 +49,9 @@
             android:textSize="14sp"
             android:textColor="#222053"
             android:letterSpacing="0.018"
-            app:layout_constraintTop_toBottomOf="@id/event_name"
-            app:layout_constraintStart_toStartOf="@id/event_name"
-            app:layout_constraintEnd_toEndOf="@id/event_name"
+            app:layout_constraintTop_toBottomOf="@id/event_title"
+            app:layout_constraintStart_toStartOf="@id/event_title"
+            app:layout_constraintEnd_toEndOf="@id/event_title"
             tools:text="9 de Agosto 2020"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

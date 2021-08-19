@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.saj.marvel.ui.utils.PxToDP
 import javax.inject.Inject
 
-class CharactersItemDecoration @Inject constructor(
+class ListItemDecoration @Inject constructor(
     private val pxToDP: PxToDP
 ): RecyclerView.ItemDecoration() {
 

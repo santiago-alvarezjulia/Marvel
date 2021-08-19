@@ -9,6 +9,7 @@ class EventMapper @Inject constructor(
     private val thumbnailMapper: Mapper<ThumbnailDTO, String>
 ) : Mapper<EventDTO, Event> {
     override fun map(input: EventDTO): Event {
-        return Event(input.id, input.name, input.startDate, thumbnailMapper.map(input.thumbnail))
+        return Event(input.id, input.title, input.startDate ?: "",
+            thumbnailMapper.map(input.thumbnail))
     }
 }

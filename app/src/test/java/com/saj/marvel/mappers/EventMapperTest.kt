@@ -35,10 +35,10 @@ class EventMapperTest {
     }
 
     @Test
-    fun `event mapping name`() {
+    fun `event mapping title`() {
         val eventDTO = EventDTOBuilder()
             .build()
-        assertThat(mapper.map(eventDTO).name).isEqualTo(eventDTO.name)
+        assertThat(mapper.map(eventDTO).title).isEqualTo(eventDTO.title)
     }
 
     @Test
@@ -46,6 +46,14 @@ class EventMapperTest {
         val eventDTO = EventDTOBuilder()
             .build()
         assertThat(mapper.map(eventDTO).startDate).isEqualTo(eventDTO.startDate)
+    }
+
+    @Test
+    fun `event mapping null startDate to empty string`() {
+        val eventDTO = EventDTOBuilder()
+            .setStartDate(null)
+            .build()
+        assertThat(mapper.map(eventDTO).startDate).isEqualTo("")
     }
 
     @Test

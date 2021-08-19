@@ -41,7 +41,7 @@ class EventsAdapter @Inject constructor(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val event = events[position]
-        holder.binding.eventName.text = event.name
+        holder.binding.eventTitle.text = event.title
         holder.binding.eventDate.text = event.startDate
         imageManager.loadImage(holder.itemView.context, holder.binding.eventThumbnail,
             event.thumbnail)

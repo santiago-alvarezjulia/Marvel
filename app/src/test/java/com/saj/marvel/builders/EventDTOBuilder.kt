@@ -7,7 +7,7 @@ class EventDTOBuilder {
 
     private var id = 1
     private var name = "Thanos"
-    private var startDate = "2020-12-10 00:00:00"
+    private var startDate : String? = "2020-12-10 00:00:00"
     private var thumbnail = ThumbnailDTOBuilder().build()
 
     fun setId(newId: Int) : EventDTOBuilder {
@@ -20,7 +20,7 @@ class EventDTOBuilder {
         return this
     }
 
-    fun setStartDate(newStartDate: String) : EventDTOBuilder {
+    fun setStartDate(newStartDate: String?) : EventDTOBuilder {
         this.startDate = newStartDate
         return this
     }

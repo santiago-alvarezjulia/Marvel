@@ -10,7 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.saj.marvel.databinding.FragmentCharactersListBinding
 import com.saj.marvel.ui.adapters.CharactersAdapter
-import com.saj.marvel.ui.adapters.CharactersItemDecoration
+import com.saj.marvel.ui.adapters.ListItemDecoration
 import com.saj.marvel.viewModels.CharactersViewModel
 import com.saj.marvel.viewModels.singleEvent.EventObserver
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,7 +23,7 @@ class CharactersListFragment : Fragment() {
     lateinit var charactersAdapter: CharactersAdapter
 
     @Inject
-    lateinit var itemDecoration: CharactersItemDecoration
+    lateinit var itemDecoration: ListItemDecoration
 
     private val charactersViewModel: CharactersViewModel by activityViewModels()
 

@@ -72,4 +72,23 @@ class MarvelWebServiceTest {
 
         assertThat(expected).isEqualTo(actual)
     }
+
+    @Test
+    fun `should fetch events correctly given 200 response with a startDate null`() = runBlocking {
+        mockWebServer.enqueue(getMockResponse(readJsonResponseAsString("1-event-200-null-date.json"),
+            200))
+
+        val response = webService.fetchMarvelEvents(1, "startDate")
+        val actual = (response as NetworkResponse.Success).body.data.results
+        val expected = listOf(
+            EventDTOBuilder()
+                .setId(1)
+                .setName("Thanos Event")
+                .setStartDate(null)
+                .setThumbnail(ThumbnailDTOBuilder().build())
+                .build()
+        )
+
+        assertThat(expected).isEqualTo(actual)
+    }
 }
