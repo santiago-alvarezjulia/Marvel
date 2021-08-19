@@ -11,6 +11,11 @@
         tools:layout="@layout/fragment_characters_list"/>
 
     <fragment
+        android:id="@+id/eventsListFragment"
+        android:name="com.saj.marvel.ui.fragments.EventsListFragment"
+        tools:layout="@layout/fragment_events_list"/>
+
+    <fragment
         android:id="@+id/signInFragment"
         android:name="com.saj.marvel.ui.fragments.SignInFragment"
         tools:layout="@layout/fragment_sign_in">
