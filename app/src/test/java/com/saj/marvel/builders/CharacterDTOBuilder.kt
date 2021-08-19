@@ -1,6 +1,7 @@
 package com.saj.marvel.builders
 
 import com.saj.marvel.network.dtos.CharacterDTO
+import com.saj.marvel.network.dtos.ThumbnailDTO
 
 class CharacterDTOBuilder {
 
@@ -24,7 +25,7 @@ class CharacterDTOBuilder {
         return this
     }
 
-    fun setThumbnail(newThumbnail: CharacterDTO.ThumbnailDTO) : CharacterDTOBuilder {
+    fun setThumbnail(newThumbnail: ThumbnailDTO) : CharacterDTOBuilder {
         this.thumbnail = newThumbnail
         return this
     }
