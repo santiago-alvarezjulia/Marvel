@@ -43,6 +43,7 @@ class EventsAdapter @Inject constructor(
         val event = events[position]
         holder.binding.eventTitle.text = event.title
         holder.binding.eventDate.text = event.startDate
+        holder.binding.expandItem.setImageResource(R.drawable.ic_outline_expand_more_24)
         imageManager.loadImage(holder.itemView.context, holder.binding.eventThumbnail,
             event.thumbnail)
     }

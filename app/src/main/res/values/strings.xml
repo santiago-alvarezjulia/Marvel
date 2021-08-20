@@ -5,4 +5,6 @@
     <string name="home_top_title">Marvel Challenge</string>
     <string name="error_loading_characters">Error loading characters</string>
     <string name="error_loading_events">Error loading events</string>
+    <string name="comics_to_discuss_title">Comics to discuss</string>
+    <string name="expand_event_content_description">Show more event info</string>
 </resources>
