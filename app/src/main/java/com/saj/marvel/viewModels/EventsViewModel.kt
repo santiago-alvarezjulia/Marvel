@@ -7,6 +7,7 @@ import com.saj.marvel.idlingResources.EspressoCountingIdlingResource
 import com.saj.marvel.models.Event
 import com.saj.marvel.network.NetworkResponse
 import com.saj.marvel.repositories.EventsRepositoryInt
+import com.saj.marvel.ui.models.ListedEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
@@ -26,6 +27,10 @@ class EventsViewModel @Inject constructor(
     private val _eventsLiveData = MutableLiveData<List<Event>>()
     val eventsLiveData : LiveData<List<Event>>
         get() = _eventsLiveData
+
+    private val _listedEventsLiveData = MutableLiveData<List<ListedEvent>>()
+    val listedEventsLiveData : LiveData<List<ListedEvent>>
+        get() = _listedEventsLiveData
 
     private val _loadEventsErrorLiveData = MutableLiveData<com.saj.marvel.viewModels.singleEvent.Event<Int>>()
     val loadEventsErrorLiveData : LiveData<com.saj.marvel.viewModels.singleEvent.Event<Int>>
@@ -51,6 +56,9 @@ class EventsViewModel @Inject constructor(
                 is NetworkResponse.Success -> {
                     val events = response.body
                     _eventsLiveData.postValue(events)
+                    _listedEventsLiveData.postValue(events.map {
+                        ListedEvent(it)
+                    })
                     savedStateHandle.set(SAVED_STATE_EVENTS_KEY, events)
                 }
                 else -> {

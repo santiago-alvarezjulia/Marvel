@@ -41,7 +41,7 @@ class EventsViewModelTest {
     }
 
     @Test
-    fun `getMarvelCharacters return empty list when no characters`() {
+    fun `getMarvelEvents return empty list when no events`() {
         stubRepoFetchEvents(emptyList())
         stubSavedStateHandleGet(emptyList())
         val viewModel = EventsViewModel(mockSavedStateHandle, mockEventsRepo,
@@ -50,7 +50,7 @@ class EventsViewModelTest {
     }
 
     @Test
-    fun `getMarvelCharacters return list of available characters`() {
+    fun `getMarvelEvents return list of available events`() {
         val events = listOf(EventBuilder().build())
         stubRepoFetchEvents(events)
         stubSavedStateHandleGet(emptyList())
@@ -60,13 +60,23 @@ class EventsViewModelTest {
     }
 
     @Test
-    fun `saved state handle characters return instead of repo getCharacters`() {
+    fun `saved state handle events return instead of repo getMarvelEvents`() {
         val events = listOf(EventBuilder().build())
         stubRepoFetchEvents(emptyList())
         stubSavedStateHandleGet(events)
         val viewModel = EventsViewModel(mockSavedStateHandle, mockEventsRepo,
             coroutineRule.testDispatcher)
         assertThat(viewModel.eventsLiveData.value).hasSize(events.size)
+    }
+
+    @Test
+    fun `getMarvelEvents return list of available listed events`() {
+        val events = listOf(EventBuilder().build())
+        stubRepoFetchEvents(events)
+        stubSavedStateHandleGet(emptyList())
+        val viewModel = EventsViewModel(mockSavedStateHandle, mockEventsRepo,
+            coroutineRule.testDispatcher)
+        assertThat(viewModel.listedEventsLiveData.value?.get(0)?.isExpanded).isFalse()
     }
 
     @Test
