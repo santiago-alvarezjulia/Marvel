@@ -8,5 +8,6 @@ data class EventDTO(
     @Json(name = "id") val id: Int,
     @Json(name = "title") val title: String,
     @Json(name = "start") val startDate: String?,
-    @Json(name = "thumbnail") val thumbnail: ThumbnailDTO
+    @Json(name = "thumbnail") val thumbnail: ThumbnailDTO,
+    @Json(name = "comics") val comics: ComicListDTO
 )
