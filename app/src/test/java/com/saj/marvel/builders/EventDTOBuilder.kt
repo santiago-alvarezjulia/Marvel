@@ -36,6 +36,11 @@ class EventDTOBuilder {
         return this
     }
 
+    fun setNewComics(newComics: ComicListDTO) : EventDTOBuilder {
+        this.comics = newComics
+        return this
+    }
+
     fun build() : EventDTO {
         return EventDTO(id, name, startDate, thumbnail, comics)
     }

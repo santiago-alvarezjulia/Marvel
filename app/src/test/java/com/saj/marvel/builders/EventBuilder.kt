@@ -8,6 +8,7 @@ class EventBuilder {
     private var name = "Thanos Event"
     private var startDate = "2020-12-10 00:00:00"
     private var thumbnail = "http://i.annihil.us/u/prod/marvel/i/mg/6/40/5274137e3e2cd.jpg"
+    private var comics = listOf(ComicBuilder().build())
 
     fun setId(newId: Int) : EventBuilder {
         this.id = newId
@@ -30,6 +31,6 @@ class EventBuilder {
     }
 
     fun build() : Event {
-        return Event(id, name, startDate, thumbnail)
+        return Event(id, name, startDate, thumbnail, comics)
     }
 }
