@@ -7,27 +7,27 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.saj.marvel.R
 import com.saj.marvel.databinding.EventItemBinding
-import com.saj.marvel.models.Event
 import com.saj.marvel.ui.imageManager.ImageManager
+import com.saj.marvel.ui.models.ListedEvent
 import javax.inject.Inject
 
 class EventsAdapter @Inject constructor(
     private val imageManager: ImageManager
 ) : RecyclerView.Adapter<EventsAdapter.ViewHolder>() {
 
-    private val events = mutableListOf<Event>()
+    private val listedEvents = mutableListOf<ListedEvent>()
 
-    fun setData(newEvents: List<Event>) {
-        val diffCallback = EventDiffCallback(events, newEvents)
+    fun setData(newListedEvents: List<ListedEvent>) {
+        val diffCallback = EventDiffCallback(listedEvents, newListedEvents)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
-        events.clear()
-        events.addAll(newEvents)
+        listedEvents.clear()
+        listedEvents.addAll(newListedEvents)
         diffResult.dispatchUpdatesTo(this)
     }
 
-    override fun getItemCount() = events.size
+    override fun getItemCount() = listedEvents.size
 
-    override fun getItemId(position: Int) = events[position].id.toLong()
+    override fun getItemId(position: Int) = listedEvents[position].getId().toLong()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -40,12 +40,12 @@ class EventsAdapter @Inject constructor(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val event = events[position]
-        holder.binding.eventTitle.text = event.title
-        holder.binding.eventDate.text = event.startDate
+        val event = listedEvents[position]
+        holder.binding.eventTitle.text = event.getTitle()
+        holder.binding.eventDate.text = event.getStartDate()
         holder.binding.expandItem.setImageResource(R.drawable.ic_outline_expand_more_24)
         imageManager.loadImage(holder.itemView.context, holder.binding.eventThumbnail,
-            event.thumbnail)
+            event.getThumbnail())
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

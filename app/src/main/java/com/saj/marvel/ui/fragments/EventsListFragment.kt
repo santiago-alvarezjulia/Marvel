@@ -41,7 +41,7 @@ class EventsListFragment : Fragment() {
 
         setUpEventsAdapter()
 
-        eventsViewModel.eventsLiveData.observe(viewLifecycleOwner, {
+        eventsViewModel.listedEventsLiveData.observe(viewLifecycleOwner, {
             eventsAdapter.setData(it)
         })
 

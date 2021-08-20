@@ -4,7 +4,6 @@ import androidx.lifecycle.*
 import com.saj.marvel.R
 import com.saj.marvel.di.IoDispatcher
 import com.saj.marvel.idlingResources.EspressoCountingIdlingResource
-import com.saj.marvel.models.Event
 import com.saj.marvel.network.NetworkResponse
 import com.saj.marvel.repositories.EventsRepositoryInt
 import com.saj.marvel.ui.models.ListedEvent
@@ -24,10 +23,6 @@ class EventsViewModel @Inject constructor(
         private const val SAVED_STATE_EVENTS_KEY = "SAVED_STATE_EVENTS_KEY"
     }
 
-    private val _eventsLiveData = MutableLiveData<List<Event>>()
-    val eventsLiveData : LiveData<List<Event>>
-        get() = _eventsLiveData
-
     private val _listedEventsLiveData = MutableLiveData<List<ListedEvent>>()
     val listedEventsLiveData : LiveData<List<ListedEvent>>
         get() = _listedEventsLiveData
@@ -37,12 +32,12 @@ class EventsViewModel @Inject constructor(
         get() = _loadEventsErrorLiveData
 
     init {
-        val savedStateEvents = savedStateHandle.get<List<Event>>(SAVED_STATE_EVENTS_KEY)
+        val savedStateEvents = savedStateHandle.get<List<ListedEvent>>(SAVED_STATE_EVENTS_KEY)
         savedStateEvents?.let {
             if (it.isEmpty()) {
                 getMarvelEvents()
             } else {
-                _eventsLiveData.postValue(it)
+                _listedEventsLiveData.postValue(it)
             }
         } ?: run {
             getMarvelEvents()
@@ -54,12 +49,11 @@ class EventsViewModel @Inject constructor(
         viewModelScope.launch(dispatcher) {
             when (val response = eventsRepository.fetchMarvelEvents()) {
                 is NetworkResponse.Success -> {
-                    val events = response.body
-                    _eventsLiveData.postValue(events)
-                    _listedEventsLiveData.postValue(events.map {
+                    val listedEvents = response.body.map {
                         ListedEvent(it)
-                    })
-                    savedStateHandle.set(SAVED_STATE_EVENTS_KEY, events)
+                    }
+                    _listedEventsLiveData.postValue(listedEvents)
+                    savedStateHandle.set(SAVED_STATE_EVENTS_KEY, listedEvents)
                 }
                 else -> {
                     _loadEventsErrorLiveData.postValue(

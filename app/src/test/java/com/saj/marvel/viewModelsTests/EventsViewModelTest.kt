@@ -46,17 +46,7 @@ class EventsViewModelTest {
         stubSavedStateHandleGet(emptyList())
         val viewModel = EventsViewModel(mockSavedStateHandle, mockEventsRepo,
             coroutineRule.testDispatcher)
-        assertThat(viewModel.eventsLiveData.value).isEmpty()
-    }
-
-    @Test
-    fun `getMarvelEvents return list of available events`() {
-        val events = listOf(EventBuilder().build())
-        stubRepoFetchEvents(events)
-        stubSavedStateHandleGet(emptyList())
-        val viewModel = EventsViewModel(mockSavedStateHandle, mockEventsRepo,
-            coroutineRule.testDispatcher)
-        assertThat(viewModel.eventsLiveData.value).hasSize(events.size)
+        assertThat(viewModel.listedEventsLiveData.value).isEmpty()
     }
 
     @Test
@@ -66,7 +56,7 @@ class EventsViewModelTest {
         stubSavedStateHandleGet(events)
         val viewModel = EventsViewModel(mockSavedStateHandle, mockEventsRepo,
             coroutineRule.testDispatcher)
-        assertThat(viewModel.eventsLiveData.value).hasSize(events.size)
+        assertThat(viewModel.listedEventsLiveData.value).hasSize(events.size)
     }
 
     @Test
