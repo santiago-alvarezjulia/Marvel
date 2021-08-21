@@ -73,7 +73,7 @@ class CharactersRepositoryTest {
     }
 
     private fun stubWebServiceFetchCharacters(characters: List<CharacterDTO>) {
-        val data = DataWrapperDTO(DataWrapperDTO.DataContainerDTO(characters))
+        val data = DataWrapperDTO(DataWrapperDTO.DataContainerDTO(0, 15, 1533, characters))
         coEvery { mockMarvelWebService.fetchMarvelCharacters() } returns NetworkResponse.Success(data)
     }
 

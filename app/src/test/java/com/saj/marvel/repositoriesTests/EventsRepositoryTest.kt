@@ -92,7 +92,7 @@ class EventsRepositoryTest {
     }
 
     private fun stubWebServiceFetchCharacters(events: List<EventDTO>) {
-        val data = DataWrapperDTO(DataWrapperDTO.DataContainerDTO(events))
+        val data = DataWrapperDTO(DataWrapperDTO.DataContainerDTO(0, 15, 1533, events))
         coEvery { mockMarvelWebService.fetchMarvelEvents(any(), any()) } returns NetworkResponse.Success(data)
     }
 

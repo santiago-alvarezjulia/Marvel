@@ -91,4 +91,23 @@ class MarvelWebServiceTest {
 
         assertThat(expected).isEqualTo(actual)
     }
+
+    @Test
+    fun `fetch characters given 200 response has paging data`() = runBlocking {
+        val expectedOffset = 0
+        val expectedCount = 15
+        val expectedTotal = 1533
+
+        mockWebServer.enqueue(getMockResponse(readJsonResponseAsString("1-character-200.json"),
+            200))
+
+        val response = (webService.fetchMarvelCharacters() as NetworkResponse.Success)
+        val actualOffset = response.body.data.offset
+        val actualCount = response.body.data.count
+        val actualTotal = response.body.data.total
+
+        assertThat(expectedOffset).isEqualTo(actualOffset)
+        assertThat(expectedCount).isEqualTo(actualCount)
+        assertThat(expectedTotal).isEqualTo(actualTotal)
+    }
 }
