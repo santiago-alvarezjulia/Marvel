@@ -10,9 +10,6 @@ typealias GenericResponse<S> = NetworkResponse<S, GenericApiError>
 
 interface MarvelWebService {
     @GET("characters")
-    suspend fun fetchMarvelCharacters() : GenericResponse<DataWrapperDTO<CharacterDTO>>
-
-    @GET("characters")
     suspend fun fetchPagedMarvelCharacters(
         @Query("limit") limit: Int,
         @Query("offset") offset: Int

@@ -1,5 +1,8 @@
 {
 	"data": {
+		"offset": 0,
+		"total": 1533,
+		"count": 25,
 		"results": [
 			{
 				"id": 1,
@@ -8,6 +11,14 @@
 				"thumbnail": {
 					"path": "http://i.annihil.us/u/prod/marvel/i/mg/6/40/5274137e3e2cd",
 					"extension": "jpg"
+				},
+				"comics": {
+					"items": [
+						{
+							"resourceURI": "http://gateway.marvel.com/v1/public/comics/12744",
+							"name": "Alpha Flight (1983) #79"
+						}
+					]
 				}
 			},
 			{
@@ -17,6 +28,14 @@
 				"thumbnail": {
 					"path": "http://i.annihil.us/u/prod/marvel/i/mg/6/40/5274137e3e2cd",
 					"extension": "jpg"
+				},
+				"comics": {
+					"items": [
+						{
+							"resourceURI": "http://gateway.marvel.com/v1/public/comics/12744",
+							"name": "Alpha Flight (1983) #79"
+						}
+					]
 				}
 			},
 			{
@@ -26,6 +45,14 @@
 				"thumbnail": {
 					"path": "http://i.annihil.us/u/prod/marvel/i/mg/6/40/5274137e3e2cd",
 					"extension": "jpg"
+				},
+				"comics": {
+					"items": [
+						{
+							"resourceURI": "http://gateway.marvel.com/v1/public/comics/12744",
+							"name": "Alpha Flight (1983) #79"
+						}
+					]
 				}
 			}
 		]

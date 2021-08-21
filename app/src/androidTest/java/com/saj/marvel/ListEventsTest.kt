@@ -1,15 +1,16 @@
 package com.saj.marvel
 
+import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import com.google.common.truth.Truth.assertThat
 import com.saj.marvel.idlingResources.EspressoCountingIdlingResource
 import com.saj.marvel.ui.fragments.EventsListFragment
 import com.saj.marvel.utils.InstrumentedTestUtils.getMockResponse
 import com.saj.marvel.utils.InstrumentedTestUtils.readJsonResponseAsString
-import com.saj.marvel.utils.RecyclerViewItemCounterAssertion
 import com.saj.marvel.utils.launchFragmentInHiltContainer
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -59,7 +60,13 @@ class ListEventsTest {
             )
         )
 
-        onView(ViewMatchers.withId(R.id.events_list))
-            .check(RecyclerViewItemCounterAssertion(EXPECTED_ITEM_COUNT))
+        onView(ViewMatchers.withId(R.id.events_list)).check { view, noViewFoundException ->
+            if (noViewFoundException != null) {
+                throw noViewFoundException
+            }
+
+            val recyclerView = view as RecyclerView
+            assertThat(recyclerView.adapter?.itemCount).isEqualTo(EXPECTED_ITEM_COUNT)
+        }
     }
 }

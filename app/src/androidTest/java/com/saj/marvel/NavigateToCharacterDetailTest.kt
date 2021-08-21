@@ -28,7 +28,7 @@ import org.junit.runner.RunWith
 @LargeTest
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
-class CharacterDetailTest {
+class NavigateToCharacterDetailTest {
 
     @get:Rule
     val hiltRule = HiltAndroidRule(this)

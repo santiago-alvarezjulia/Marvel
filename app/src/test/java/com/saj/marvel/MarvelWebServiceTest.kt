@@ -19,6 +19,9 @@ class MarvelWebServiceTest {
     private val mockWebServer = MockWebServer()
     private val webService = MockWebService.getMockedWebService(mockWebServer)
 
+    private val characterOffset = 0
+    private val characterLimit = 15
+
     @After
     fun tearDown() {
         mockWebServer.shutdown()
@@ -29,7 +32,9 @@ class MarvelWebServiceTest {
         mockWebServer.enqueue(getMockResponse(readJsonResponseAsString("1-character-200.json"),
             200))
 
-        val actual = (webService.fetchMarvelCharacters() as NetworkResponse.Success).body.data.results
+        val response = (webService.fetchPagedMarvelCharacters(characterLimit, characterOffset)
+                as NetworkResponse.Success)
+        val actual = response.body.data.results
         val expected = listOf(
             CharacterDTOBuilder()
                 .setId(1)
@@ -48,10 +53,11 @@ class MarvelWebServiceTest {
         mockWebServer.enqueue(getMockResponse(readJsonResponseAsString("500.json"),
             code))
 
-        val actual = (webService.fetchMarvelCharacters() as NetworkResponse.ApiError)
+        val response = (webService.fetchPagedMarvelCharacters(characterLimit, characterOffset)
+                as NetworkResponse.ApiError)
         val expected = NetworkResponse.ApiError(GenericApiError(code, "Internal Server Error"))
 
-        assertThat(expected).isEqualTo(actual)
+        assertThat(expected).isEqualTo(response)
     }
 
     @Test
@@ -94,20 +100,20 @@ class MarvelWebServiceTest {
 
     @Test
     fun `fetch characters given 200 response has paging data`() = runBlocking {
-        val expectedOffset = 0
-        val expectedCount = 15
+
         val expectedTotal = 1533
 
         mockWebServer.enqueue(getMockResponse(readJsonResponseAsString("1-character-200.json"),
             200))
 
-        val response = (webService.fetchMarvelCharacters() as NetworkResponse.Success)
+        val response = (webService.fetchPagedMarvelCharacters(characterLimit, characterOffset)
+                as NetworkResponse.Success)
         val actualOffset = response.body.data.offset
         val actualCount = response.body.data.count
         val actualTotal = response.body.data.total
 
-        assertThat(expectedOffset).isEqualTo(actualOffset)
-        assertThat(expectedCount).isEqualTo(actualCount)
+        assertThat(characterOffset).isEqualTo(actualOffset)
+        assertThat(characterLimit).isEqualTo(actualCount)
         assertThat(expectedTotal).isEqualTo(actualTotal)
     }
 }

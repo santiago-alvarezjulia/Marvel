@@ -4,20 +4,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.saj.marvel.R
 import com.saj.marvel.databinding.FragmentCharactersListBinding
-import com.saj.marvel.ui.adapters.CharactersAdapter
+import com.saj.marvel.ui.adapters.CharacterDiffItemCallback
+import com.saj.marvel.ui.adapters.CharactersPagingAdapter
 import com.saj.marvel.ui.adapters.ListItemDecoration
 import com.saj.marvel.ui.imageManager.ImageManager
 import com.saj.marvel.viewModels.CharacterSharedViewModel
 import com.saj.marvel.viewModels.CharactersViewModel
-import com.saj.marvel.viewModels.singleEvent.EventObserver
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -32,7 +34,7 @@ class CharactersListFragment : Fragment() {
     private val charactersViewModel: CharactersViewModel by activityViewModels()
     private val characterSharedViewModel: CharacterSharedViewModel by activityViewModels()
 
-    lateinit var charactersAdapter: CharactersAdapter
+    private lateinit var charactersPagingAdapter: CharactersPagingAdapter
 
     private var _binding: FragmentCharactersListBinding? = null
     private val binding get() = _binding!!
@@ -48,24 +50,22 @@ class CharactersListFragment : Fragment() {
 
         setUpCharactersAdapter()
 
-        charactersViewModel.charactersLiveData.observe(viewLifecycleOwner, {
-            charactersAdapter.setData(it)
-        })
-
-        charactersViewModel.loadCharactersErrorLiveData.observe(viewLifecycleOwner, EventObserver {
-            Toast.makeText(requireActivity(), getString(it), Toast.LENGTH_SHORT).show()
-        })
+        viewLifecycleOwner.lifecycleScope.launch {
+            charactersViewModel.charactersFlow.collectLatest { pagingData ->
+                charactersPagingAdapter.submitData(pagingData)
+            }
+        }
     }
 
     private fun setUpCharactersAdapter() {
-        charactersAdapter = CharactersAdapter(imageManager) {
+        charactersPagingAdapter = CharactersPagingAdapter(imageManager, {
             characterSharedViewModel.setCharacter(it)
             navigateToDetailScreen()
-        }
+        }, CharacterDiffItemCallback())
+
         val layoutManager = LinearLayoutManager(activity)
         binding.charactersList.layoutManager = layoutManager
-        charactersAdapter.setHasStableIds(true)
-        binding.charactersList.adapter = charactersAdapter
+        binding.charactersList.adapter = charactersPagingAdapter
         binding.charactersList.addItemDecoration(itemDecoration)
         binding.charactersList.setHasFixedSize(true)
     }

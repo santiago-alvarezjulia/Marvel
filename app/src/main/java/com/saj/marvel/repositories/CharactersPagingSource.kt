@@ -2,6 +2,7 @@ package com.saj.marvel.repositories
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.saj.marvel.idlingResources.EspressoCountingIdlingResource
 import com.saj.marvel.models.Character
 import com.saj.marvel.network.MarvelWebService
 import com.saj.marvel.network.NetworkResponse
@@ -16,6 +17,7 @@ class CharactersPagingSource @Inject constructor(
 
     companion object {
         const val PAGE_SIZE = 15
+        const val STARTING_OFFSET = 0
     }
 
     override fun getRefreshKey(state: PagingState<Int, Character>): Int? {
@@ -30,19 +32,22 @@ class CharactersPagingSource @Inject constructor(
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Character> {
-        val nextPageOffset = params.key ?: 0
-        return when(val response = marvelWebService.fetchPagedMarvelCharacters(PAGE_SIZE, nextPageOffset)) {
+        val offset = params.key ?: STARTING_OFFSET
+        EspressoCountingIdlingResource.processStarts()
+        val response = marvelWebService.fetchPagedMarvelCharacters(PAGE_SIZE, offset)
+        EspressoCountingIdlingResource.processEnds()
+        return when(response) {
             is NetworkResponse.Success -> {
                 val responseData = response.body.data
                 val newOffset = if (responseData.total != responseData.offset)
-                    response.body.data.offset + response.body.data.count
+                    responseData.offset + responseData.count
                 else
                     null
                 LoadResult.Page(
                     charactersMapper.map(
                         responseData.results
                     ),
-                    responseData.offset,
+                    params.key,
                     newOffset
                 )
             }

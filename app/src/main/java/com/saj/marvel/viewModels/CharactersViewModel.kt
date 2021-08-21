@@ -1,33 +1,18 @@
 package com.saj.marvel.viewModels
 
-import androidx.lifecycle.*
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import com.saj.marvel.R
-import com.saj.marvel.di.IoDispatcher
-import com.saj.marvel.idlingResources.EspressoCountingIdlingResource
-import com.saj.marvel.models.Character
-import com.saj.marvel.network.NetworkResponse
 import com.saj.marvel.repositories.CharactersPagingSource
-import com.saj.marvel.repositories.CharactersRepositoryInt
-import com.saj.marvel.viewModels.singleEvent.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CharactersViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle,
-    private val charactersRepository: CharactersRepositoryInt,
-    private val charactersPagingSource: CharactersPagingSource,
-    @IoDispatcher private val dispatcher: CoroutineDispatcher
+    private val charactersPagingSource: CharactersPagingSource
 ) : ViewModel() {
-
-    companion object {
-        private const val SAVED_STATE_CHARACTERS_KEY = "SAVED_STATE_CHARACTERS_KEY"
-    }
 
     val charactersFlow = Pager(
         PagingConfig(
@@ -37,44 +22,4 @@ class CharactersViewModel @Inject constructor(
         charactersPagingSource
     }.flow
         .cachedIn(viewModelScope)
-
-    private val _charactersLiveData = MutableLiveData<List<Character>>()
-    val charactersLiveData : LiveData<List<Character>>
-        get() = _charactersLiveData
-
-    private val _loadCharactersErrorLiveData = MutableLiveData<Event<Int>>()
-    val loadCharactersErrorLiveData : LiveData<Event<Int>>
-        get() = _loadCharactersErrorLiveData
-
-    init {
-        val savedStateCharacters = savedStateHandle.get<List<Character>>(SAVED_STATE_CHARACTERS_KEY)
-        savedStateCharacters?.let {
-            if (it.isEmpty()) {
-                getMarvelCharacters()
-            } else {
-                _charactersLiveData.postValue(it)
-            }
-        } ?: run {
-            getMarvelCharacters()
-        }
-    }
-
-    private fun getMarvelCharacters() {
-        EspressoCountingIdlingResource.processStarts()
-        viewModelScope.launch(dispatcher) {
-            when (val response = charactersRepository.fetchMarvelCharacters()) {
-                is NetworkResponse.Success -> {
-                    val characters = response.body
-                    _charactersLiveData.postValue(characters)
-                    savedStateHandle.set(SAVED_STATE_CHARACTERS_KEY, characters)
-                }
-                else -> {
-                    _loadCharactersErrorLiveData.postValue(
-                        Event(R.string.error_loading_characters)
-                    )
-                }
-            }
-            EspressoCountingIdlingResource.processEnds()
-        }
-    }
 }

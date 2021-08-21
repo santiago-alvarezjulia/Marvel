@@ -35,7 +35,7 @@ class CharactersPagingSourceTest {
 
         val expected = PagingSource.LoadResult.Page(
             data = realListMapper.map(listOf(character)),
-            prevKey = 0,
+            prevKey = null,
             nextKey = 15
         )
         val actual = pagingSource.load(
