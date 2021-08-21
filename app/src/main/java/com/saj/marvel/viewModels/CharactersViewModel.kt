@@ -1,11 +1,15 @@
 package com.saj.marvel.viewModels
 
 import androidx.lifecycle.*
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
 import com.saj.marvel.R
 import com.saj.marvel.di.IoDispatcher
 import com.saj.marvel.idlingResources.EspressoCountingIdlingResource
 import com.saj.marvel.models.Character
 import com.saj.marvel.network.NetworkResponse
+import com.saj.marvel.repositories.CharactersPagingSource
 import com.saj.marvel.repositories.CharactersRepositoryInt
 import com.saj.marvel.viewModels.singleEvent.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,12 +21,22 @@ import javax.inject.Inject
 class CharactersViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val charactersRepository: CharactersRepositoryInt,
+    private val charactersPagingSource: CharactersPagingSource,
     @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     companion object {
         private const val SAVED_STATE_CHARACTERS_KEY = "SAVED_STATE_CHARACTERS_KEY"
     }
+
+    val charactersFlow = Pager(
+        PagingConfig(
+            pageSize = CharactersPagingSource.PAGE_SIZE
+        )
+    ) {
+        charactersPagingSource
+    }.flow
+        .cachedIn(viewModelScope)
 
     private val _charactersLiveData = MutableLiveData<List<Character>>()
     val charactersLiveData : LiveData<List<Character>>
