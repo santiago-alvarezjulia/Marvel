@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.saj.marvel.databinding.FragmentCharactersListBinding
 import com.saj.marvel.ui.adapters.CharactersAdapter
 import com.saj.marvel.ui.adapters.ListItemDecoration
+import com.saj.marvel.ui.imageManager.ImageManager
+import com.saj.marvel.viewModels.CharacterSharedViewModel
 import com.saj.marvel.viewModels.CharactersViewModel
 import com.saj.marvel.viewModels.singleEvent.EventObserver
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,12 +22,15 @@ import javax.inject.Inject
 class CharactersListFragment : Fragment() {
 
     @Inject
-    lateinit var charactersAdapter: CharactersAdapter
+    lateinit var imageManager: ImageManager
 
     @Inject
     lateinit var itemDecoration: ListItemDecoration
 
     private val charactersViewModel: CharactersViewModel by activityViewModels()
+    private val characterSharedViewModel: CharacterSharedViewModel by activityViewModels()
+
+    lateinit var charactersAdapter: CharactersAdapter
 
     private var _binding: FragmentCharactersListBinding? = null
     private val binding get() = _binding!!
@@ -51,12 +56,20 @@ class CharactersListFragment : Fragment() {
     }
 
     private fun setUpCharactersAdapter() {
+        charactersAdapter = CharactersAdapter(imageManager) {
+            characterSharedViewModel.setCharacter(it)
+            navigateToDetailScreen()
+        }
         val layoutManager = LinearLayoutManager(activity)
         binding.charactersList.layoutManager = layoutManager
         charactersAdapter.setHasStableIds(true)
         binding.charactersList.adapter = charactersAdapter
         binding.charactersList.addItemDecoration(itemDecoration)
         binding.charactersList.setHasFixedSize(true)
+    }
+
+    private fun navigateToDetailScreen() {
+
     }
 
     override fun onDestroyView() {

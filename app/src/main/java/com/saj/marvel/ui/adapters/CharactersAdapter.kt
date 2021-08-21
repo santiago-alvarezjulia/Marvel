@@ -9,10 +9,10 @@ import com.saj.marvel.R
 import com.saj.marvel.databinding.CharacterItemBinding
 import com.saj.marvel.models.Character
 import com.saj.marvel.ui.imageManager.ImageManager
-import javax.inject.Inject
 
-class CharactersAdapter @Inject constructor(
-    private val imageManager: ImageManager
+class CharactersAdapter(
+    private val imageManager: ImageManager,
+    private val onClick: (Character) -> Unit
 ) : RecyclerView.Adapter<CharactersAdapter.ViewHolder>() {
 
     private val characters = mutableListOf<Character>()
@@ -48,5 +48,10 @@ class CharactersAdapter @Inject constructor(
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding = CharacterItemBinding.bind(itemView)
+        init {
+            binding.root.setOnClickListener {
+                onClick.invoke(characters[adapterPosition])
+            }
+        }
     }
 }
