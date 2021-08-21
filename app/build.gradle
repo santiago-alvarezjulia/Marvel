@@ -101,8 +101,9 @@ dependencies {
     kapt 'com.github.bumptech.glide:compiler:4.12.0'
 
     // Firebase BOM
-    implementation platform('com.google.firebase:firebase-bom:28.3.1')
+    implementation platform('com.google.firebase:firebase-bom:28.4.0')
 
     // Firebase UI Auth
     implementation 'com.firebaseui:firebase-ui-auth:8.0.0'
+    implementation 'com.facebook.android:facebook-android-sdk:11.2.0'
 }

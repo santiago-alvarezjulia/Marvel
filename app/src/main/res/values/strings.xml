@@ -7,4 +7,7 @@
     <string name="error_loading_events">Error loading events</string>
     <string name="comics_to_discuss_title">Comics to discuss</string>
     <string name="expand_event_content_description">Show more event info</string>
+
+    <string name="facebook_application_id">1048490895892118</string>
+    <string name="facebook_login_protocol_scheme">fb1048490895892118</string>
 </resources>
