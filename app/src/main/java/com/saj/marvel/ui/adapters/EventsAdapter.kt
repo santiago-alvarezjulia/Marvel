@@ -44,7 +44,13 @@ class EventsAdapter @Inject constructor(
         val event = listedEvents[position]
         holder.binding.eventTitle.text = event.getTitle()
         holder.binding.eventDate.text = event.getStartDate()
-        holder.binding.expandItem.setImageResource(R.drawable.ic_outline_expand_more_24)
+        if (event.isExpanded) {
+            holder.binding.expandItem.setImageResource(R.drawable.ic_outline_expand_less_24)
+            holder.binding.expandGroup.visibility = View.VISIBLE
+        } else {
+            holder.binding.expandItem.setImageResource(R.drawable.ic_outline_expand_more_24)
+            holder.binding.expandGroup.visibility = View.GONE
+        }
         imageManager.loadImage(holder.itemView.context, holder.binding.eventThumbnail,
             event.getThumbnail())
         holder.comicsAdapter.setData(event.getComics())
@@ -55,6 +61,10 @@ class EventsAdapter @Inject constructor(
         val comicsAdapter = ComicsAdapter()
 
         init {
+            binding.expandItem.setOnClickListener {
+                listedEvents[adapterPosition].isExpanded = !listedEvents[adapterPosition].isExpanded
+                notifyItemChanged(adapterPosition)
+            }
             setUpComicsAdapter()
         }
 
@@ -63,7 +73,6 @@ class EventsAdapter @Inject constructor(
             binding.comicsToDiscussList.layoutManager = layoutManager
             comicsAdapter.setHasStableIds(true)
             binding.comicsToDiscussList.adapter = comicsAdapter
-            binding.comicsToDiscussList.setHasFixedSize(true)
         }
     }
 }

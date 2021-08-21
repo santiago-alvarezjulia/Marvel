@@ -3,7 +3,7 @@ package com.saj.marvel.ui.models
 import com.saj.marvel.models.Comic
 import com.saj.marvel.models.Event
 
-data class ListedEvent(private val event: Event, val isExpanded: Boolean = false) {
+data class ListedEvent(private val event: Event, var isExpanded: Boolean = false) {
 
     fun isTheSame(otherListedEvent: ListedEvent): Boolean {
         return this.getId() == otherListedEvent.getId()
