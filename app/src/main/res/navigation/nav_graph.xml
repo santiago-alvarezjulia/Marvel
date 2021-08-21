@@ -8,7 +8,16 @@
     <fragment
         android:id="@+id/charactersListFragment"
         android:name="com.saj.marvel.ui.fragments.CharactersListFragment"
-        tools:layout="@layout/fragment_characters_list"/>
+        tools:layout="@layout/fragment_characters_list">
+        <action
+            android:id="@+id/actionToCharactersDetailFragment"
+            app:destination="@id/characterDetailFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/characterDetailFragment"
+        android:name="com.saj.marvel.ui.fragments.CharacterDetailFragment"
+        tools:layout="@layout/fragment_character_detail"/>
 
     <fragment
         android:id="@+id/eventsListFragment"
