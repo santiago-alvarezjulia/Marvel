@@ -15,6 +15,14 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
 
+    companion object {
+        private val BOTTOM_NAV_FRAGS : List<Int> = listOf(
+            R.id.charactersListFragment,
+            R.id.eventsListFragment
+        )
+        private val TOP_BAR_FRAGS : List<Int> = BOTTOM_NAV_FRAGS
+    }
+
     private val authStateViewModel: AuthStateViewModel by viewModels()
 
     private lateinit var binding: ActivityHomeBinding
@@ -41,13 +49,9 @@ class HomeActivity : AppCompatActivity() {
         binding.bottomNav.itemIconTintList = null
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.signInFragment) {
-                binding.bottomNav.visibility = View.GONE
-                binding.topBar.visibility = View.GONE
-            } else {
-                binding.bottomNav.visibility = View.VISIBLE
-                binding.topBar.visibility = View.VISIBLE
-            }
+            val destinationId = destination.id
+            binding.bottomNav.visibility = if (destinationId in BOTTOM_NAV_FRAGS) View.VISIBLE else View.GONE
+            binding.topBar.visibility = if (destinationId in TOP_BAR_FRAGS) View.VISIBLE else View.GONE
         }
     }
 

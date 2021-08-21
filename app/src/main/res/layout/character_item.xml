@@ -17,7 +17,7 @@
             android:scaleType="centerCrop"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintDimensionRatio="1:1"
-            tools:ignore="ContentDescription" />
+            android:importantForAccessibility="no"/>
 
         <TextView
             android:id="@+id/character_name"
