@@ -12,9 +12,15 @@ interface MarvelWebService {
     @GET("characters")
     suspend fun fetchMarvelCharacters() : GenericResponse<DataWrapperDTO<CharacterDTO>>
 
+    @GET("characters")
+    suspend fun fetchPagedMarvelCharacters(
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int
+    ) : GenericResponse<DataWrapperDTO<CharacterDTO>>
+
     @GET("events")
     suspend fun fetchMarvelEvents(
         @Query("limit") limit: Int,
         @Query("orderBy") orderBy: String
-    ): GenericResponse<DataWrapperDTO<EventDTO>>
+    ) : GenericResponse<DataWrapperDTO<EventDTO>>
 }
