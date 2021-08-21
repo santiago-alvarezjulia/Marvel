@@ -1,5 +1,6 @@
 package com.saj.marvel.ui.models
 
+import com.saj.marvel.models.Comic
 import com.saj.marvel.models.Event
 
 data class ListedEvent(private val event: Event, val isExpanded: Boolean = false) {
@@ -28,5 +29,9 @@ data class ListedEvent(private val event: Event, val isExpanded: Boolean = false
 
     fun getThumbnail(): String {
         return event.thumbnail
+    }
+
+    fun getComics(): List<Comic> {
+        return event.comics
     }
 }

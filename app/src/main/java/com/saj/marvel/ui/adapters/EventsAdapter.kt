@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.saj.marvel.R
 import com.saj.marvel.databinding.EventItemBinding
@@ -46,9 +47,23 @@ class EventsAdapter @Inject constructor(
         holder.binding.expandItem.setImageResource(R.drawable.ic_outline_expand_more_24)
         imageManager.loadImage(holder.itemView.context, holder.binding.eventThumbnail,
             event.getThumbnail())
+        holder.comicsAdapter.setData(event.getComics())
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding = EventItemBinding.bind(itemView)
+        val comicsAdapter = ComicsAdapter()
+
+        init {
+            setUpComicsAdapter()
+        }
+
+        private fun setUpComicsAdapter() {
+            val layoutManager = LinearLayoutManager(itemView.context)
+            binding.comicsToDiscussList.layoutManager = layoutManager
+            comicsAdapter.setHasStableIds(true)
+            binding.comicsToDiscussList.adapter = comicsAdapter
+            binding.comicsToDiscussList.setHasFixedSize(true)
+        }
     }
 }
