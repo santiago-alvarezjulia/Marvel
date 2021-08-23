@@ -1,4 +1,4 @@
-# RickAndMorty android app by Santiago Alvarez Juliá
+# Marvel android app by Santiago Alvarez Juliá
 
 ## Marvel Api Keys
 
