@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "628274165256",
+    "project_id": "marvel-696cf",
+    "storage_bucket": "marvel-696cf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:628274165256:android:26ccf256a544bc029683bd",
+        "android_client_info": {
+          "package_name": "com.saj.marvel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "628274165256-voq1t9mabbjja64ngejhk7c8tu4pbv82.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.saj.marvel",
+            "certificate_hash": "4dda636fbf2337b5037def9910e32f2ff8cebc89"
+          }
+        },
+        {
+          "client_id": "628274165256-necaa10ne1gcp8v1p6a1vp0jjbt2b352.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHOWeHcmxRMJ9e1vUXHcLEX7TqlhXJiJ4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "628274165256-necaa10ne1gcp8v1p6a1vp0jjbt2b352.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
